@@ -13,7 +13,6 @@ const Home = () => {
     const ui = options.map((ele,index) =>
         <Phones data={ele}  key={brands[index]} brand = {brands[index]} />
     )
-    console.log(ui);
 
     return (
         <React.Fragment>

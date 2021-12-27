@@ -90,3 +90,29 @@ strong {
     background-color: var(--bgcolor);
     color           : white;
 }
+
+.login {
+    margin         : 5% auto;
+    border         : groove var(--bgcolor);
+    width          : 75%;
+    padding        : 1%;
+    display        : flex;
+    justify-content: space-between;
+    box-shadow:10px 10px var(--bgcolor);  
+
+}
+
+.login>div {
+    width  : 50%;
+    padding: 1%;
+}
+
+.loginposter img {
+    width: 100%;
+}
+
+main h4 {
+    font-size : 2vw;
+    text-align: center;
+
+}
