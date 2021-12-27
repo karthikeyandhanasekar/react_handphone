@@ -4,22 +4,37 @@ import { Controller, useForm } from "react-hook-form"
 import { Link } from "react-router-dom";
 import poster from '../assets/images/loginposter.png'
 import { useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { database } from '../Firebase/firebaseconfig'
+import { collection, addDoc } from "firebase/firestore";
 
 const Signin = () => {
     const naviagte = useNavigate()
 
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
+    const users = collection(database, "users")
 
     const onsubmit = (data) => {
         const auth = getAuth()
 
+        const storeusers = async (data) => {
+            try {
+                console.log(data);
+                await addDoc(users, data)
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+
         createUserWithEmailAndPassword(auth, data["email"], data["password"])
             .then((response) => {
+                storeusers(data)
+                sessionStorage.setItem('username', data['username'])
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 naviagte("/login")
             })
+
             .catch(error => {
                 switch (error.code) {
                     case 'auth/email-already-in-use':

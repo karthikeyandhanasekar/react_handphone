@@ -4,27 +4,26 @@ import { brands } from '../data/brand.jsx'
 import { phones } from '../data/phones.jsx'
 import brand from '../assets/images/brand-transparent.png'
 import { Button } from 'antd';
-import { ShoppingCartOutlined, UserSwitchOutlined } from '@ant-design/icons';
-import { Link } from "react-router-dom"
+import { ShoppingCartOutlined, UserSwitchOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Link, useNavigate } from "react-router-dom"
 
 
-import { getAuth } from 'firebase/auth'
 
 const Header = () => {
     //get session token & email
     const [token] = React.useState(!!sessionStorage['auth-token'])
-    const [email, setemail] = React.useState()
+    const navigate = useNavigate()
 
     //get search value from cascader
     const [search, getsearch] = React.useState()
     console.log(token);
 
-    React.useEffect(() => {
-        console.log("in effect " + token);
-        token ? setemail(getAuth().currentUser?.email) : setemail(null)
-    }, [token])
+    const logout = () => {
+        sessionStorage.removeItem('auth-token');
+        navigate('/login')
 
-    console.log(email);
+    }
+
     //generate option for cascader
     const options = brands.map(brand => {
         return {
@@ -66,7 +65,7 @@ const Header = () => {
                                 border: "none",
                                 fontSize: "20px"
                             }
-                        }>{email ? `Welcome ${email}` : `Sign in`}</Button>
+                        }>{!!sessionStorage.getItem('username') ? `Welcome ${sessionStorage.getItem('username')}` : `Sign in`}</Button>
                 </Link>
                 <Button type="text" icon={<ShoppingCartOutlined />}
                     style={
@@ -77,6 +76,17 @@ const Header = () => {
                             fontSize: "20px"
                         }
                     }>Cart</Button>
+                {
+                    token ? <Button type="text" icon={<LogoutOutlined />} onC lick={logout}
+                        style={
+                            {
+                                color: "white",
+                                backgroundColor: "transparent",
+                                border: "none",
+                                fontSize: "20px"
+                            }
+                        }>LogOut</Button> : null
+                }
             </div>
         </header>
     )

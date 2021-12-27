@@ -9,6 +9,7 @@ import Phones from "./phonedisplay"
 import Header from './Header';
 
 
+
 const Home = () => {
 
     const options = brands.map(brand => phones.filter(ele => ele.title.toLowerCase().search(brand) >= 0 ? ele : null))

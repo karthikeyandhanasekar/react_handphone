@@ -25,6 +25,23 @@ const Login = () => {
                 console.log("success created");
                 navigate("/")
             })
+            .catch(error => {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        alert('Email already in use !')
+                        break;
+                    case 'auth/wrong-password':
+                        alert('Please check the Password')
+                        break;
+
+                    case 'auth/user-not-found':
+                        alert('Please check the Email');
+                        break;
+
+                    default:
+                        break;
+                }
+            })
 
         reset({
             email: "",
