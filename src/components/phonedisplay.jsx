@@ -1,8 +1,32 @@
-import { Button, Divider } from "antd";
+import { Button, Divider, Modal } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 
 const Phones = ({ data, brand }) => {
+    const navigate = useNavigate()
+    const token = !!sessionStorage['auth-token']
+
+    const addcart = () => {
+
+
+        if (token) {
+
+            //if user signin
+            console.log("already Signed");
+        }
+        else {
+            //if user not signin
+            Modal.info({
+                title: "Please Login to continuee..",
+                onOk() {
+                    navigate('/login')
+                }
+            })
+        }
+
+    }
 
     return (
         <React.Fragment>
@@ -16,7 +40,7 @@ const Phones = ({ data, brand }) => {
                                 <img src={ele.images[0]} alt={ele.title} />
                             </picture>
                             <h4>{ele.title}</h4>
-                            <Button className="primary buttons" >Add to Cart</Button>
+                            <Button className="primary buttons" onClick={addcart} >Add to Cart</Button>
                         </div>
                     )
                 }

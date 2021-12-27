@@ -8,12 +8,23 @@ import { ShoppingCartOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom"
 
 
+import { getAuth } from 'firebase/auth'
 
 const Header = () => {
+    //get session token & email
+    const [token] = React.useState(!!sessionStorage['auth-token'])
+    const [email, setemail] = React.useState()
+
     //get search value from cascader
     const [search, getsearch] = React.useState()
+    console.log(token);
 
+    React.useEffect(() => {
+        console.log("in effect " + token);
+        token ? setemail(getAuth().currentUser?.email) : setemail(null)
+    }, [token])
 
+    console.log(email);
     //generate option for cascader
     const options = brands.map(brand => {
         return {
@@ -34,7 +45,7 @@ const Header = () => {
             <div className="logo">
                 <picture>
                     <img src={brand} alt="HandPhone.png" />
-                </picture>  
+                </picture>
             </div>
 
             <div>
@@ -55,7 +66,7 @@ const Header = () => {
                                 border: "none",
                                 fontSize: "20px"
                             }
-                        }>Sign in</Button>
+                        }>{email ? `Welcome ${email}` : `Sign in`}</Button>
                 </Link>
                 <Button type="text" icon={<ShoppingCartOutlined />}
                     style={

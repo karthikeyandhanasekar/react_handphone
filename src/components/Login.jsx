@@ -8,9 +8,16 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 const Login = () => {
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate = useNavigate()
+    React.useEffect(() => {
+        const authToken = sessionStorage.getItem('auth-token')
+        console.log(authToken)
+        if (authToken) {
+            navigate('/')
+        }
+
+    }, [navigate])
 
     const onsubmit = (data) => {
-        console.log(data);
         const auth = getAuth()
         signInWithEmailAndPassword(auth, data["email"], data["password"])
             .then((response) => {
@@ -37,6 +44,7 @@ const Login = () => {
                         <Form.Item label="Email" required tooltip="Email is required" >
                             <Controller control={control}
                                 name="email"
+                                defaultValue={"karthik@gmail.com"}
                                 render={({ field }) =>
                                     <Input {...field} placeholder="Email" required />
                                 } />
@@ -46,6 +54,7 @@ const Login = () => {
                         <Form.Item label="Password" required tooltip="Password is required" >
                             <Controller control={control}
                                 name="password"
+                                defaultValue={"karthik123"}
                                 render={({ field }) =>
                                     <Input.Password {...field} placeholder="password" autoComplete="on" required />
                                 } />
