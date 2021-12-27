@@ -1,15 +1,23 @@
 import { Input, Form, Button } from "antd";
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import poster from '../assets/images/loginposter.png'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
 const Login = () => {
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
-
+    const navigate = useNavigate()
 
     const onsubmit = (data) => {
         console.log(data);
+        const auth = getAuth()
+        signInWithEmailAndPassword(auth, data["email"], data["password"])
+            .then((response) => {
+                sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
+                console.log("success created");
+                navigate("/")
+            })
 
         reset({
             email: "",

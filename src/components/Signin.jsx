@@ -3,13 +3,32 @@ import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Link } from "react-router-dom";
 import poster from '../assets/images/loginposter.png'
-import { FirebaseSignin } from "../Firebase/signin";
+import { useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+
 const Signin = () => {
+    const naviagte = useNavigate()
+
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
 
     const onsubmit = (data) => {
-        FirebaseSignin({data : data})
+        const auth = getAuth()
+
+        createUserWithEmailAndPassword(auth, data["email"], data["password"])
+            .then((response) => {
+                sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
+                naviagte("/login")
+            })
+            .catch(error => {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        alert('Email already in use !')
+                        break;
+                    default:
+                        break;
+                }
+            })
 
         reset({
             username: "",
