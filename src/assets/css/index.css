@@ -11,30 +11,32 @@ html {
     scroll-behavior: smooth;
 }
 
-header {
-    background-color: #c41d7f;
-    display         : flex;
-    align-items     : center;
-    justify-content : space-between;
-    padding-right   : 1%;
+:root {
+    --bgcolor: #c41d7f
 }
 
-header>div {
+header {
+    background-color     : var(--bgcolor);
+    display              : grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 32%));
+    gap                  : 1%;
+    padding              : 1%;
+}
+
+.logo {
+    width: 25%;
+}
+
+
+.headerbuttons {
     width: fit-content;
 }
 
-picture {
-    width: 20%;
-}
 
-img {
-    width: 30%;
-}
+
 
 .cascader {
-    border: solid;
-    width : 50vw;
-    height: 100%;
+    width: 100%;
 }
 
 button {
@@ -58,4 +60,33 @@ button {
     width       : 100%;
     height      : 34vh;
     aspect-ratio: 1.6;
+}
+
+
+
+.brand {
+    display              : grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
+    gap                  : 2%;
+    margin-bottom        : 5%;
+}
+
+img {
+    width: 50%;
+}
+
+.phone {
+    text-align: center;
+    word-wrap : break-word;
+    font-size : 1.2vw;
+    cursor    : pointer;
+}
+
+strong {
+    font-size: 2vw;
+}
+
+.buttons {
+    background-color: var(--bgcolor);
+    color           : white;
 }

@@ -3,8 +3,9 @@ import React from "react"
 import { brands } from '../data/brand.jsx'
 import { phones } from '../data/phones.jsx'
 import brand from '../assets/images/brand-transparent.png'
-import { Button, } from 'antd';
+import { Button } from 'antd';
 import { ShoppingCartOutlined, UserSwitchOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom"
 
 
 
@@ -13,7 +14,6 @@ const Header = () => {
     const [search, getsearch] = React.useState()
 
 
-    console.log(search);
     //generate option for cascader
     const options = brands.map(brand => {
         return {
@@ -31,31 +31,42 @@ const Header = () => {
 
     return (
         <header>
-            <picture>
-                <img src={brand} alt="HandPhone.png" />
-            </picture>
-            <Cascader options={options} placeholder="please search" className="cascader"
-                onChange={(value) => getsearch(value[1])}
-                showSearch={{ filter }}
-            />
-            <Button type="text" icon={<UserSwitchOutlined />}
-                style={
-                    {
-                        color: "white",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        fontSize: "20px"
-                    }
-                }>Sign in</Button>
-            <Button type="text" icon={<ShoppingCartOutlined />}
-                style={
-                    {
-                        color: "white",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        fontSize: "20px"
-                    }
-                }>Cart</Button>
+            <div className="logo">
+                <picture>
+                    <img src={brand} alt="HandPhone.png" />
+                </picture>  
+            </div>
+
+            <div>
+                <Cascader options={options} placeholder="please search" className="cascader"
+                    onChange={(value) => getsearch(value[1])}
+                    showSearch={{ filter }}
+                />
+            </div>
+
+            <div className="headerbuttons">
+                <Link to="/login" >
+
+                    <Button type="text" icon={<UserSwitchOutlined />}
+                        style={
+                            {
+                                color: "white",
+                                backgroundColor: "transparent",
+                                border: "none",
+                                fontSize: "20px"
+                            }
+                        }>Sign in</Button>
+                </Link>
+                <Button type="text" icon={<ShoppingCartOutlined />}
+                    style={
+                        {
+                            color: "white",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            fontSize: "20px"
+                        }
+                    }>Cart</Button>
+            </div>
         </header>
     )
 }
