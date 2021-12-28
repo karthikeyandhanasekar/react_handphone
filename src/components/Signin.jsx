@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Signin = () => {
     const naviagte = useNavigate()
 
-    const { control, handleSubmit, formState: { errors }, reset } = useForm();
+    const { control, handleSubmit, reset } = useForm();
 
     const users = collection(database, "users")
 
@@ -108,7 +108,7 @@ const Signin = () => {
 
                 </div>
                 <div className="loginposter">
-                    <ToastContainer/>
+                    <ToastContainer />
                     <img src={poster} alt="handphone.png" />
                 </div>
             </div>

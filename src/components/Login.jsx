@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
-    const { control, handleSubmit, formState: { errors }, reset } = useForm();
+    const { control, handleSubmit, reset } = useForm();
     const navigate = useNavigate()
     React.useEffect(() => {
         const authToken = sessionStorage.getItem('auth-token')
@@ -19,6 +19,9 @@ const Login = () => {
 
     }, [navigate])
 
+
+   
+
     const onsubmit = (data) => {
         const auth = getAuth()
         signInWithEmailAndPassword(auth, data["email"], data["password"])
@@ -26,6 +29,10 @@ const Login = () => {
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 sessionStorage.setItem('email', data["email"])
                 navigate("/")
+                reset({
+                    email: "",
+                    password: ""
+                })  
             })
             .catch(error => {
                 switch (error.code) {
@@ -45,10 +52,7 @@ const Login = () => {
                 }
             })
 
-        reset({
-            email: "",
-            password: ""
-        })
+      
     }
     return (
         <main>

@@ -1,17 +1,17 @@
-import { Button, Divider, } from "antd";
+import { Divider, } from "antd";
 import React from "react";
-import { bindActionCreators } from "redux";
-import * as actioncreators from "../redux/actioncreators"
-import { useDispatch } from "react-redux";
+// import { bindActionCreators } from "redux";
+// import * as actioncreators from "../redux/actioncreators"
+// import { useDispatch } from "react-redux";
 import Phone from "./Phone";
 
 
 const Phones = ({ data, brand }) => {
-    const token = !!sessionStorage['auth-token']
+    // const token = !!sessionStorage['auth-token']
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    const actions = bindActionCreators(actioncreators, dispatch)
+  //  const actions = bindActionCreators(actioncreators, dispatch)
 
     return (
         <React.Fragment>

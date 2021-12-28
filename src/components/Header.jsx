@@ -8,7 +8,6 @@ import { ShoppingCartOutlined, UserSwitchOutlined, LogoutOutlined } from '@ant-d
 import { Link, useNavigate } from "react-router-dom"
 import { database } from '../Firebase/firebaseconfig'
 import { collection, getDocs } from "firebase/firestore";
-import { getAuth } from "firebase/auth"
 
 
 const Header = () => {
@@ -18,7 +17,7 @@ const Header = () => {
 
 
     //get search value from cascader
-    const [search, getsearch] = React.useState()
+    const [ getsearch] = React.useState()
     console.log(token);
 
     const logout = () => {
@@ -48,7 +47,7 @@ const Header = () => {
         users()
 
 
-    }, [])
+    }, [token])
 
 
     //generate option for cascader
