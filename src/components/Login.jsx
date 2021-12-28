@@ -22,6 +22,7 @@ const Login = () => {
         signInWithEmailAndPassword(auth, data["email"], data["password"])
             .then((response) => {
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
+                sessionStorage.setItem('email', data["email"])
                 console.log("success created");
                 navigate("/")
             })

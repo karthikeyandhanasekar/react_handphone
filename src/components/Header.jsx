@@ -6,13 +6,16 @@ import brand from '../assets/images/brand-transparent.png'
 import { Button } from 'antd';
 import { ShoppingCartOutlined, UserSwitchOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom"
-
+import { database } from '../Firebase/firebaseconfig'
+import { collection, getDocs } from "firebase/firestore";
+import { getAuth } from "firebase/auth"
 
 
 const Header = () => {
     //get session token & email
     const [token] = React.useState(!!sessionStorage['auth-token'])
     const navigate = useNavigate()
+
 
     //get search value from cascader
     const [search, getsearch] = React.useState()
@@ -21,8 +24,30 @@ const Header = () => {
     const logout = () => {
         sessionStorage.removeItem('auth-token');
         navigate('/login')
-
     }
+    const users = async () => {
+        try {
+            const email = sessionStorage.getItem("email")
+            const users = collection(database, "users")
+            let data = await getDocs(users)
+            data = data.docs.map(ele => ele.data())
+            console.log(data);
+            data = data.filter(ele => ele.email === email)[0]["username"]
+            sessionStorage.setItem("username", data)
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    React.useEffect(() => {
+        users()
+
+    }, [])
+
+
+
+
 
     //generate option for cascader
     const options = brands.map(brand => {
@@ -77,7 +102,7 @@ const Header = () => {
                         }
                     }>Cart</Button>
                 {
-                    token ? <Button type="text" icon={<LogoutOutlined />} onC lick={logout}
+                    token ? <Button type="text" icon={<LogoutOutlined />} onClick={logout}
                         style={
                             {
                                 color: "white",
