@@ -4,6 +4,8 @@ import { Controller, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import poster from '../assets/images/loginposter.png'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
@@ -23,20 +25,19 @@ const Login = () => {
             .then((response) => {
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 sessionStorage.setItem('email', data["email"])
-                console.log("success created");
                 navigate("/")
             })
             .catch(error => {
                 switch (error.code) {
                     case 'auth/email-already-in-use':
-                        alert('Email already in use !')
+                        toast.error('Email already in use !')
                         break;
                     case 'auth/wrong-password':
-                        alert('Please check the Password')
+                        toast.error('Please check the Password')
                         break;
 
                     case 'auth/user-not-found':
-                        alert('Please check the Email');
+                        toast.error('Please check the Email');
                         break;
 
                     default:
@@ -86,6 +87,7 @@ const Login = () => {
                     <Link to="/signin" >New User...Singin Here</Link>
                 </div>
                 <div className="loginposter">
+                    <ToastContainer />
                     <img src={poster} alt="handphone.png" />
                 </div>
             </div>

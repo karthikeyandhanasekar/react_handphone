@@ -23,15 +23,19 @@ const Header = () => {
 
     const logout = () => {
         sessionStorage.removeItem('auth-token');
+        sessionStorage.removeItem("email")
+        sessionStorage.removeItem("username")
+
         navigate('/login')
     }
+
+    //extarct username from firebase auth
     const users = async () => {
         try {
             const email = sessionStorage.getItem("email")
             const users = collection(database, "users")
             let data = await getDocs(users)
             data = data.docs.map(ele => ele.data())
-            console.log(data);
             data = data.filter(ele => ele.email === email)[0]["username"]
             sessionStorage.setItem("username", data)
 
@@ -43,10 +47,8 @@ const Header = () => {
     React.useEffect(() => {
         users()
 
+
     }, [])
-
-
-
 
 
     //generate option for cascader

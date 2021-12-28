@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { database } from '../Firebase/firebaseconfig'
 import { collection, addDoc } from "firebase/firestore";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signin = () => {
     const naviagte = useNavigate()
@@ -33,19 +35,20 @@ const Signin = () => {
                 sessionStorage.setItem('username', data['username'])
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 naviagte("/login")
+                toast.success("Account Created Successfully")
             })
 
             .catch(error => {
                 switch (error.code) {
                     case 'auth/email-already-in-use':
-                        alert('Email already in use !')
+                        toast.error('Email already in use !')
                         break;
                     case 'auth/wrong-password':
-                        alert('Please check the Password')
+                        toast.error('Please check the Password')
                         break;
 
                     case 'auth/user-not-found':
-                        alert('Please check the Email');
+                        toast.error('Please check the Email');
                         break;
 
                     default:
@@ -105,6 +108,7 @@ const Signin = () => {
 
                 </div>
                 <div className="loginposter">
+                    <ToastContainer/>
                     <img src={poster} alt="handphone.png" />
                 </div>
             </div>

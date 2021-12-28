@@ -1,32 +1,17 @@
-import { Button, Divider, Modal } from "antd";
+import { Button, Divider, } from "antd";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
+import { bindActionCreators } from "redux";
+import * as actioncreators from "../redux/actioncreators"
+import { useDispatch } from "react-redux";
+import Phone from "./Phone";
 
 
 const Phones = ({ data, brand }) => {
-    const navigate = useNavigate()
     const token = !!sessionStorage['auth-token']
 
-    const addcart = () => {
+    const dispatch = useDispatch()
 
-
-        if (token) {
-
-            //if user signin
-            console.log("already Signed");
-        }
-        else {
-            //if user not signin
-            Modal.info({
-                title: "Please Login to continuee..",
-                onOk() {
-                    navigate('/login')
-                }
-            })
-        }
-
-    }
+    const actions = bindActionCreators(actioncreators, dispatch)
 
     return (
         <React.Fragment>
@@ -35,13 +20,7 @@ const Phones = ({ data, brand }) => {
             <div className="brand" >
                 {
                     data.map(ele =>
-                        <div key={ele.id} className="phone" >
-                            <picture>
-                                <img src={ele.images[0]} alt={ele.title} />
-                            </picture>
-                            <h4>{ele.title}</h4>
-                            <Button className="primary buttons" onClick={addcart} >Add to Cart</Button>
-                        </div>
+                        <Phone phone={ele} key={ele.id} />
                     )
                 }
 
