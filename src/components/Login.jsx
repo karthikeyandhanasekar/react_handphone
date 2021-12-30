@@ -12,7 +12,6 @@ const Login = () => {
     const navigate = useNavigate()
     React.useEffect(() => {
         const authToken = sessionStorage.getItem('auth-token')
-        console.log(authToken)
         if (authToken) {
             navigate('/')
         }

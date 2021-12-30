@@ -33,7 +33,7 @@ const Header = () => {
         try {
             const email = sessionStorage.getItem("email")
             const users = collection(database, "users")
-            let data = await getDocs(users)
+            let data = await getDocs(users) 
             data = data.docs.map(ele => ele.data())
             data = data.filter(ele => ele.email === email)[0]["username"]
             sessionStorage.setItem("username", data)

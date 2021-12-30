@@ -11,7 +11,7 @@ const Phones = ({ data, brand }) => {
 
     // const dispatch = useDispatch()
 
-  //  const actions = bindActionCreators(actioncreators, dispatch)
+    //  const actions = bindActionCreators(actioncreators, dispatch)
 
     return (
         <React.Fragment>
