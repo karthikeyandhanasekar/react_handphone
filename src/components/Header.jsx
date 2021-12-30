@@ -1,4 +1,4 @@
-import { Cascader } from "antd"
+import { Badge, Cascader } from "antd"
 import React from "react"
 import { brands } from '../data/brand.jsx'
 import { phones } from '../data/phones.jsx'
@@ -10,15 +10,14 @@ import { database } from '../Firebase/firebaseconfig'
 import { collection, getDocs } from "firebase/firestore";
 
 
-const Header = () => {
+const Header = ({ cartcount }) => {
     //get session token & email
     const [token] = React.useState(!!sessionStorage['auth-token'])
     const navigate = useNavigate()
 
 
     //get search value from cascader
-    const [ getsearch] = React.useState()
-    console.log(token);
+    const [getsearch] = React.useState()
 
     const logout = () => {
         sessionStorage.removeItem('auth-token');
@@ -33,7 +32,7 @@ const Header = () => {
         try {
             const email = sessionStorage.getItem("email")
             const users = collection(database, "users")
-            let data = await getDocs(users) 
+            let data = await getDocs(users)
             data = data.docs.map(ele => ele.data())
             data = data.filter(ele => ele.email === email)[0]["username"]
             sessionStorage.setItem("username", data)
@@ -93,15 +92,20 @@ const Header = () => {
                             }
                         }>{!!sessionStorage.getItem('username') ? `Welcome ${sessionStorage.getItem('username')}` : `Sign in`}</Button>
                 </Link>
-                <Button type="text" icon={<ShoppingCartOutlined />}
-                    style={
-                        {
-                            color: "white",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            fontSize: "20px"
-                        }
-                    }>Cart</Button>
+                <Link to={"/cart"} >
+                    <Badge size="large" color={"green"} offset={[-5, 30]} overflowCount={99} count={cartcount}>
+
+                        <Button type="text" icon={<ShoppingCartOutlined />}
+                            style={
+                                {
+                                    color: "white",
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                    fontSize: "20px"
+                                }
+                            }>Cart</Button>
+                    </Badge>
+                </Link>
                 {
                     token ? <Button type="text" icon={<LogoutOutlined />} onClick={logout}
                         style={

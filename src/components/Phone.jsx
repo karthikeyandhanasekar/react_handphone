@@ -1,5 +1,5 @@
 import { database } from '../Firebase/firebaseconfig'
-import { updateDoc,setDoc, doc, deleteDoc, getDocFromServer } from "firebase/firestore";
+import { updateDoc, setDoc, doc, deleteDoc, getDocFromServer } from "firebase/firestore";
 import { Button, Modal } from "antd";
 
 import { useNavigate } from "react-router-dom";
@@ -61,7 +61,7 @@ const Phone = ({ phone }) => {
 
                     Modal.info({
                         title: "Already Added in cart.Want to add Extra Quantity? ",
-                        content:"Or Press Exit button to go back to page",
+                        content: "Or Press Exit button to go back to page",
                         onOk() {
                             updatecart()
                             navigate('/')
@@ -71,8 +71,6 @@ const Phone = ({ phone }) => {
                             navigate('/')
                         }
                     })
-
-
                 }
                 else {
                     //add fresh cart
@@ -86,8 +84,6 @@ const Phone = ({ phone }) => {
                     await setDoc(document, details)
                     // setcartsucess(true)
                 }
-
-
 
             }
             else {
@@ -115,7 +111,7 @@ const Phone = ({ phone }) => {
             </picture>
             <h4>{phone.title}</h4>
             <p>{`₹ ${phone.price.toFixed(0)}`}</p>
-            <Button className="primary buttons" onClick={() => { iscartsucess  ? removecart(phone) : addcart(phone) }} > {iscartsucess ? `Remove from Cart` :  `Add to Cart`}</Button>
+            <Button className="primary buttons" onClick={() => { iscartsucess ? removecart(phone) : addcart(phone) }} > {iscartsucess ? `Remove from Cart` : `Add to Cart`}</Button>
             <Button className="primary Default" >More Details</Button>
 
         </div>

@@ -1,14 +1,13 @@
 
 
 
-export const addcart  = (data) =>
+export const countcartaction  = () =>
 {
     return (dispatch) =>
     {
         dispatch(
             {
-                type:"addcart",
-                data:data
+                type:"cartcount",
             }
         )
     }

@@ -6,9 +6,18 @@ import poster from '../assets/images/loginposter.png'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { bindActionCreators } from "redux";
+import * as actioncreators from "../redux/actioncreators"
+import { useDispatch } from "react-redux";
 
 const Login = () => {
     const { control, handleSubmit, reset } = useForm();
+
+
+    const dispatch = useDispatch()
+
+    const actions = bindActionCreators(actioncreators, dispatch)
+
     const navigate = useNavigate()
     React.useEffect(() => {
         const authToken = sessionStorage.getItem('auth-token')
@@ -19,7 +28,7 @@ const Login = () => {
     }, [navigate])
 
 
-   
+
 
     const onsubmit = (data) => {
         const auth = getAuth()
@@ -27,11 +36,13 @@ const Login = () => {
             .then((response) => {
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 sessionStorage.setItem('email', data["email"])
+                actions.countcartaction()
                 navigate("/")
+
                 reset({
                     email: "",
                     password: ""
-                })  
+                })
             })
             .catch(error => {
                 switch (error.code) {
@@ -51,7 +62,7 @@ const Login = () => {
                 }
             })
 
-      
+
     }
     return (
         <main>
@@ -76,7 +87,7 @@ const Login = () => {
                         <Form.Item label="Password" required tooltip="Password is required" >
                             <Controller control={control}
                                 name="password"
-                                defaultValue={"karthik123"}
+                                defaultValue={"karthik2000"}
                                 render={({ field }) =>
                                     <Input.Password {...field} placeholder="password" autoComplete="on" required />
                                 } />

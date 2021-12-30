@@ -34,9 +34,6 @@ header {
     width: fit-content;
 }
 
-
-
-
 .cascader {
     width: 100%;
 }
@@ -100,7 +97,7 @@ strong {
     padding        : 1%;
     display        : flex;
     justify-content: space-between;
-    box-shadow:10px 10px var(--bgcolor);  
+    box-shadow     : 10px 10px var(--bgcolor);
 
 }
 
@@ -118,7 +115,44 @@ main h4 {
     text-align: center;
 
 }
-.phone p
-{
+
+.phone p {
     color: green;
+}
+
+.cartmain {
+    padding: 1%;
+}
+
+.cartmain h1 {
+    width          : 50%;
+    display        : flex;
+    justify-content: space-between;
+    letter-spacing : 1.2px;
+}
+
+.noofitems {
+    color: #008000;
+}
+
+.cartlist {
+    width      : 50%;
+    font-weight: bold;
+    border     : groove;
+    padding    : 1%;
+}
+
+.price {
+    color: green;
+}
+
+
+.cartlist p {
+    text-align: left;
+    width     : fit-content;
+}
+
+.deleteicon {
+    cursor: pointer;
+    color : red;
 }
