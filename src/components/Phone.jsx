@@ -48,7 +48,6 @@ const Phone = ({ phone }) => {
 
                 const document = doc(database, "cart", sessionStorage.getItem("email"), "items", data.title)
                 const docfromserver = await getDocFromServer(document)
-                console.log(docfromserver.data());
                 if (docfromserver.exists()) {
 
                     const updatecart = async () => {
@@ -60,11 +59,11 @@ const Phone = ({ phone }) => {
                     //update existing cart
 
                     Modal.info({
-                        title: "Already Added in cart.Want to add Extra Quantity? ",
-                        content: "Or Press Exit button to go back to page",
+                        title: "Already Added in cart",
+                        content: "Press Exit button to go back to page",
                         onOk() {
-                            updatecart()
-                            navigate('/')
+                          //  updatecart()
+                            navigate('/cart')
 
                         },
                         onCancel() {
@@ -77,7 +76,8 @@ const Phone = ({ phone }) => {
                     const details = {
                         id: data.id,
                         name: data.title,
-                        price: data.price.toFixed(0),
+                        updatedprice: data.price.toFixed(0),
+                        initialprice : data.price.toFixed(0),
                         features: data.cpu + ", " + data.display + ", " + data.memory + ", " + data.battery,
                         quantity: 1
                     }
