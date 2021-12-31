@@ -9,22 +9,10 @@ import React from 'react';
 const Phone = ({ phone }) => {
     const navigate = useNavigate()
     const [iscartsucess, setcartsucess] = React.useState(false)
-    const [iscartexist, setcartexist] = React.useState(false)
 
 
     const token = !!sessionStorage['auth-token']
 
-
-    React.useEffect(() => {
-        const cartexist = async () => {
-            const document = doc(database, "cart", sessionStorage.getItem("email"), "items", phone.title)
-            const docfromserver = await getDocFromServer(document)
-            docfromserver.exists() ? setcartexist(true) : setcartexist(false)
-        }
-        cartexist()
-
-
-    }, [phone.title])
 
 
 
