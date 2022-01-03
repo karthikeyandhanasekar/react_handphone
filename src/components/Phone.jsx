@@ -1,8 +1,9 @@
 import { database } from '../Firebase/firebaseconfig'
 import { setDoc, doc, deleteDoc, getDocFromServer } from "firebase/firestore";
 import { Button, Modal } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from 'react';
+
 
 
 const Phone = ({ phone }) => {
@@ -110,7 +111,7 @@ const Phone = ({ phone }) => {
             <h4>{phone.title}</h4>
             <p>{`₹ ${phone.price.toFixed(0)}`}</p>
             <Button type="primary" danger={iscartsucess} onClick={() => { iscartsucess ? removecart(phone) : addcart(phone) }} > {iscartsucess ? `Remove from Cart` : `Add to Cart`}</Button>
-            <Button className="primary Default" >More Details</Button>
+           <Link to={`/phonedetails/${phone.title}`} target="_blank" > <Button className="primary Default" >More Details</Button></Link>
 
         </div>
     )
