@@ -93,7 +93,7 @@ const Cart = () => {
     }, [rerender])
 
 
-    // console.log(typeof phone);
+     console.log(cartlist?.length !== 0);
     return (
         <React.Fragment>
             <Header cartcount={cartlist?.length} />
@@ -136,14 +136,18 @@ const Cart = () => {
                                 }
                             </CollapsePanel>
                         </Collapse>
+
                     </Space>
 
                     <div className="cartdetails">
                         <Collapse collapsible={cartlist?.length !== 0 ? "header" : "disabled"} defaultActiveKey={["1"]}>
                             <CollapsePanel header="Shipping Information" key="1" >
-                                <TextArea className="textarea" defaultValue={address} onChange={(value) => getaddress(value.target.value)} spellCheck required rows={3} placeholder="Address....." />
+                                <TextArea className="textarea" defaultValue={address} onChange={(value) => getaddress(value.target.value)}
+                                    spellCheck required rows={3} placeholder="Address....." disabled={cartlist?.length === 0} />
                                 <br />                            <br />
-                                <InputNumber required placeholder="phone number" defaultValue={phone} onChange={getphone} maxLength={10} minLength={10} addonBefore={<PhoneOutlined />} style={{ width: '100%' }} />
+                                <InputNumber required placeholder="phone number" defaultValue={phone} onChange={getphone}
+                                    maxLength={10} minLength={10} addonBefore={<PhoneOutlined />}
+                                    style={{ width: '100%' }} disabled={cartlist?.length === 0} />
                                 <br />
                             </CollapsePanel>
                         </Collapse>
