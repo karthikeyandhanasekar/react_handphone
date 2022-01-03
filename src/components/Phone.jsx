@@ -1,7 +1,6 @@
 import { database } from '../Firebase/firebaseconfig'
-import { updateDoc, setDoc, doc, deleteDoc, getDocFromServer } from "firebase/firestore";
+import { setDoc, doc, deleteDoc, getDocFromServer } from "firebase/firestore";
 import { Button, Modal } from "antd";
-
 import { useNavigate } from "react-router-dom";
 import React from 'react';
 
@@ -15,6 +14,18 @@ const Phone = ({ phone }) => {
 
 
 
+    React.useEffect(() => {
+        if (token) {
+            const isDocumentexist = async () => {
+                const document = doc(database, "cart", sessionStorage.getItem("email"), "items", phone.title)
+                const docfromserver = await getDocFromServer(document)
+                if (docfromserver.exists()) {
+                    setcartsucess(true)
+                }
+            }
+            isDocumentexist()
+        }
+    }, [token, phone.title])
 
     //deletecart in firstore
     const removecart = async (data) => {
@@ -25,7 +36,6 @@ const Phone = ({ phone }) => {
             console.error(error.message);
         }
     }
-
 
     //upload cart in firestore
     const addcart = async (data) => {
@@ -38,19 +48,19 @@ const Phone = ({ phone }) => {
                 const docfromserver = await getDocFromServer(document)
                 if (docfromserver.exists()) {
 
-                    const updatecart = async () => {
-                        let existdata = docfromserver.data()
-                        existdata["quantity"] += 1
-                        await updateDoc(document, existdata)
-                    }
+                    // const updatecart = async () => {
+                    //     let existdata = docfromserver.data()
+                    //     existdata["quantity"] += 1
+                    //     await updateDoc(document, existdata)
+                    // }
 
                     //update existing cart
 
                     Modal.info({
                         title: "Already Added in cart",
-                        content: "Press Exit button to go back to page",
+                        content: "Press Exit to enter shopping page or click ok to enter your cart",
                         onOk() {
-                          //  updatecart()
+                            //  updatecart()
                             navigate('/cart')
 
                         },
@@ -65,12 +75,12 @@ const Phone = ({ phone }) => {
                         id: data.id,
                         name: data.title,
                         updatedprice: data.price.toFixed(0),
-                        initialprice : data.price.toFixed(0),
+                        initialprice: data.price.toFixed(0),
                         features: data.cpu + ", " + data.display + ", " + data.memory + ", " + data.battery,
                         quantity: 1
                     }
                     await setDoc(document, details)
-                    // setcartsucess(true)
+                    setcartsucess(true)
                 }
 
             }
@@ -99,7 +109,7 @@ const Phone = ({ phone }) => {
             </picture>
             <h4>{phone.title}</h4>
             <p>{`₹ ${phone.price.toFixed(0)}`}</p>
-            <Button className="primary buttons" onClick={() => { iscartsucess ? removecart(phone) : addcart(phone) }} > {iscartsucess ? `Remove from Cart` : `Add to Cart`}</Button>
+            <Button type="primary" danger={iscartsucess} onClick={() => { iscartsucess ? removecart(phone) : addcart(phone) }} > {iscartsucess ? `Remove from Cart` : `Add to Cart`}</Button>
             <Button className="primary Default" >More Details</Button>
 
         </div>

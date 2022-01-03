@@ -11,6 +11,7 @@ const CartItem = ({ data, onrerender, type }) => {
 
 
 
+
     const document = doc(database, "cart", sessionStorage.getItem("email"), "items", data.name)
 
     const deletecart = async () => {
