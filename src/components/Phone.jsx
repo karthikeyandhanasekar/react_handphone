@@ -44,7 +44,6 @@ const Phone = ({ phone }) => {
         try {
             //if user signin
             if (token) {
-
                 const document = doc(database, "cart", sessionStorage.getItem("email"), "items", data.title)
                 const docfromserver = await getDocFromServer(document)
                 if (docfromserver.exists()) {

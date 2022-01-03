@@ -10,7 +10,6 @@ import { PhoneOutlined, ShoppingCartOutlined, } from "@ant-design/icons";
 import CollapsePanel from "antd/lib/collapse/CollapsePanel";
 
 
-
 const Cart = () => {
     const [cartlist, getcartlist] = React.useState()
     const [buylist, getbuylist] = React.useState()
@@ -20,6 +19,12 @@ const Cart = () => {
     const [total, gettotal] = React.useState(0)
 
     const [rerender, setrender] = React.useState(false)
+
+
+
+
+
+
 
     //delete document
     const deletedocument = async (name) => {
@@ -73,6 +78,7 @@ const Cart = () => {
                 console.log(item.name);
                 deletedocument(item.name)
             });
+
             getphone(null)
             getaddress("")
             handlerender()
@@ -93,7 +99,7 @@ const Cart = () => {
     }, [rerender])
 
 
-     console.log(cartlist?.length !== 0);
+    console.log(cartlist?.length !== 0);
     return (
         <React.Fragment>
             <Header cartcount={cartlist?.length} />

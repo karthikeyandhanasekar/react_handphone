@@ -33,6 +33,8 @@ const Signin = () => {
             .then((response) => {
                 storeusers(data)
                 sessionStorage.setItem('username', data['username'])
+                sessionStorage.setItem('email', data['email'])
+
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 naviagte("/login")
                 toast.success("Account Created Successfully")

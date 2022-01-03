@@ -8,8 +8,8 @@ import { database } from "../../Firebase/firebaseconfig";
 
 const CartItem = ({ data, onrerender, type }) => {
     const [updateddata, setupdateddata] = React.useState(data)
-
-
+    
+    
 
 
     const document = doc(database, "cart", sessionStorage.getItem("email"), "items", data.name)

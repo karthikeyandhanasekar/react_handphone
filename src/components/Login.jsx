@@ -6,17 +6,12 @@ import poster from '../assets/images/loginposter.png'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { bindActionCreators } from "redux";
-import * as actioncreators from "../redux/actioncreators"
-import { useDispatch } from "react-redux";
 
 const Login = () => {
     const { control, handleSubmit, reset } = useForm();
 
 
-    const dispatch = useDispatch()
 
-    const actions = bindActionCreators(actioncreators, dispatch)
 
     const navigate = useNavigate()
     React.useEffect(() => {
@@ -36,7 +31,6 @@ const Login = () => {
             .then((response) => {
                 sessionStorage.setItem('auth-token', response._tokenResponse.refreshToken)
                 sessionStorage.setItem('email', data["email"])
-                actions.countcartaction()
                 navigate("/")
 
                 reset({
