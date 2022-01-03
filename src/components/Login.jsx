@@ -71,7 +71,6 @@ const Login = () => {
                         <Form.Item label="Email" required tooltip="Email is required" >
                             <Controller control={control}
                                 name="email"
-                                defaultValue={"karthik@gmail.com"}
                                 render={({ field }) =>
                                     <Input {...field} placeholder="Email" required />
                                 } />
@@ -81,7 +80,6 @@ const Login = () => {
                         <Form.Item label="Password" required tooltip="Password is required" >
                             <Controller control={control}
                                 name="password"
-                                defaultValue={"karthik2000"}
                                 render={({ field }) =>
                                     <Input.Password {...field} placeholder="password" autoComplete="on" required />
                                 } />

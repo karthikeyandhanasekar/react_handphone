@@ -190,6 +190,33 @@ input[type=submit] {
     cursor          : pointer;
 }
 
+
+.phonedetails {
+    padding              : 1%;
+    display              : grid;
+    grid-template-columns: repeat(auto-fit, minmax(308px, 40%));
+    grid-auto-flow: column;
+
+}
+
+.phonedisplay {
+    width: 70%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (max-width:768px) {
     .text {
         font-size: 2.5vw;
