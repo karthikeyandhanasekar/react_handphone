@@ -6,7 +6,7 @@ import { database } from "../../Firebase/firebaseconfig";
 
 
 
-const CartItem = ({ data, onrerender }) => {
+const CartItem = ({ data, onrerender, type }) => {
     const [updateddata, setupdateddata] = React.useState(data)
 
 
@@ -33,6 +33,7 @@ const CartItem = ({ data, onrerender }) => {
                 setupdateddata(existdata)
                 await updateDoc(document, existdata)
                 onrerender()
+                console.log(typeof value);
 
 
             }
@@ -42,14 +43,13 @@ const CartItem = ({ data, onrerender }) => {
 
     }
 
+    const action = [
+        <InputNumber min={1} max={10} defaultValue={updateddata.quantity} onChange={updatecart} />,
+        <span className="price">{`₹ ${(updateddata.updatedprice).toLocaleString()}`}</span>,
+        <DeleteFilled onClick={deletecart} className="deleteicon" />
+    ]
     return (
-        <List.Item key={data.name} actions={
-            [
-                <InputNumber min={1} max={10} defaultValue={updateddata.quantity} onChange={updatecart} />,
-                <span className="price">{`₹ ${(updateddata.updatedprice).toLocaleString()}`}</span>,
-                <DeleteFilled onClick={deletecart} className="deleteicon" />
-            ]
-        }   >
+        <List.Item key={data.name} actions={type === "cart" ? action : null}   >
 
             <List.Item.Meta
                 avatar={null}

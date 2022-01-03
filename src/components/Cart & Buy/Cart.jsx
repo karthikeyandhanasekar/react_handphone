@@ -1,41 +1,58 @@
 import React from "react"
 import Header from '../Header';
-import { collection, doc, setDoc, getDocsFromServer } from "firebase/firestore";
+import { collection, doc, deleteDoc, getDoc, setDoc, getDocsFromServer } from "firebase/firestore";
 import { database } from "../../Firebase/firebaseconfig";
-import { Button, InputNumber, List, Modal, Typography, } from "antd";
+import { Button, Collapse, Descriptions, InputNumber, List, Space, Typography, } from "antd";
 import CartItem from "./List";
 import TextArea from "antd/lib/input/TextArea";
 import Form from "antd/lib/form/Form";
 
-import { PhoneOutlined, ShoppingCartOutlined, UploadOutlined } from "@ant-design/icons";
-import brand from '../../assets/images/brand.png'
+import { PhoneOutlined, ShoppingCartOutlined, } from "@ant-design/icons";
+import CollapsePanel from "antd/lib/collapse/CollapsePanel";
 
-import Dragger from "antd/lib/upload/Dragger";
 
 
 const Cart = () => {
     const [cartlist, getcartlist] = React.useState()
+    const [buylist, getbuylist] = React.useState()
+
     const [address, getaddress] = React.useState('')
     const [phone, getphone] = React.useState('')
 
     const [total, gettotal] = React.useState()
 
     const [rerender, setrender] = React.useState(false)
-    const [modalvisible, setmodal] = React.useState(false)
-    const [isdownload, setdownload] = React.useState(false)
 
 
+    //delete document
+    const deletedocument = async (name) => {
+        try {
+            const cartdocument = doc(database, "cart", sessionStorage.getItem("email"), "items", name)
+            await deleteDoc(cartdocument)
 
 
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
 
-
+    //cartlist from server
     const getcartfromserver = async () => {
         const cart = collection(database, "cart", sessionStorage.getItem("email"), "items")
         const data = await getDocsFromServer(cart)
+        console.log(!!data.docs[0]);
         getcartlist(data.docs.map(ele =>
             ele.data()))
-        gettotal(data.docs.map(ele => Number.parseInt(ele.data()["updatedprice"])).reduce((output, ele) => output + ele));
+        gettotal(!!data.docs[0] ? data.docs.map(ele => Number.parseInt(ele.data()["updatedprice"])).reduce((output, ele) => output + ele) : 0);
+    }
+
+    //buylist from server
+    const getbuyfromserver = async () => {
+        const cart = collection(database, "buy", sessionStorage.getItem("email"), "items")
+        const data = await getDocsFromServer(cart)
+        getbuylist(data.docs.map(ele =>
+            ele.data()))
     }
 
 
@@ -54,19 +71,20 @@ const Cart = () => {
                 email: sessionStorage.getItem("email"),
                 cartlist: cartlist,
             }
-            console.log(details);
             await setDoc(document, details)
-            
-            // createinvoice(details)
-            // setmodal(true)
-            // console.log(storage);
+            cartlist.forEach(async (item) => {
+                console.log(item.name);
+                deletedocument(item.name)
+
+
+            });
+            handlerender()
+
+
 
         } catch (error) {
             console.error(error.message);
         }
-    }
-    const uploadfile = (file) => {
-        console.log(file);
     }
     //rerender parent by child
     const handlerender = () => {
@@ -74,42 +92,56 @@ const Cart = () => {
     }
     React.useEffect(() => {
         getcartfromserver()
+        getbuyfromserver()
     }, [rerender])
 
+    console.log(buylist);
     return (
         <React.Fragment>
-            <Modal
-                visible={modalvisible}
-                onOk={() => { setdownload(true); setmodal(false) }}
-                onCancel={() => { setmodal(false) }}
-            //    okButtonProps={{ disabled: true }}
-            //    cancelButtonProps={{ disabled: true }}
-            >
-                <Form >
-                    <Dragger beforeUpload={uploadfile}
-                        name="file" >
-                        <Button icon={<UploadOutlined />}>Click to upload</Button>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">
-                            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                            band files
-                        </p>
-                    </Dragger>
 
-
-                </Form>
-            </Modal>
             <Header cartcount={cartlist?.length} />
             <main className="cartmain">
                 <h1><ShoppingCartOutlined />&nbsp;Here {sessionStorage.getItem("username")},Your Shopping Cart</h1>
                 <div>
-                    {
+                    <Space direction="vertical">
+                        <Collapse collapsible={cartlist[0]? "header" : "disabled"} defaultActiveKey={['1']}>
+                            <CollapsePanel header={"Cart List"} key="1">
+                                {
 
-                        <List className="cartlist" dataSource={cartlist}
-                            renderItem={item =>
-                                <CartItem data={item} onrerender={handlerender} />
-                            } />
-                    }
+                                    <List className="cartlist" dataSource={cartlist}
+                                        renderItem={item =>
+                                            <CartItem type={"cart"} data={item} onrerender={handlerender} />
+                                        } />
+                                }
+                            </CollapsePanel>
+                        </Collapse>
+                        <Collapse  collapsible={buylist[0]? "header" : "disabled"} defaultActiveKey={['1']}>
+                            <CollapsePanel header={"List of Buy Items"} key="1">
+                                {
+                                    buylist?.map((ele, index) =>
+                                        <Collapse collapsible="header" key={index}>
+                                            <CollapsePanel header={ele.invoicedate}>
+                                               <Descriptions title={`Invoice No : ${ele.invoice}`}>
+                                               <Descriptions.Item label="Total"  span={1} >{`₹ ${(ele.total).toLocaleString()}`}</Descriptions.Item>
+
+                                               <Descriptions.Item label="Phone" span={2}>{ele.phone}</Descriptions.Item>
+                                               <Descriptions.Item label="Product" span={3}>{ele.cartlist.map(ele=>ele.name).join(",")}</Descriptions.Item>
+
+                                               <Descriptions.Item label="Address"  span={2} >{ele.address}</Descriptions.Item>
+
+
+
+
+                                               </Descriptions>
+                                            </CollapsePanel>
+                                        </Collapse>
+
+                                    )
+                                }
+                            </CollapsePanel>
+                        </Collapse>
+                    </Space>
+
                     <div className="cartdetails">
                         <Form className="form" onFinish={handlebuy}>
                             <Typography ><h4 className="text"> Order Summary</h4></Typography>
@@ -128,7 +160,7 @@ const Cart = () => {
                                 <Typography className="text total">{total?.toLocaleString()}</Typography>
                             </div>
                             <br />
-                            <Button type="primary" htmlType="submit" >Buy</Button>
+                            <Button type="primary" htmlType="submit" disabled={total !== 0 ? false : true} >Buy</Button>
                         </Form>
 
                     </div>
