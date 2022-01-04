@@ -5,6 +5,7 @@ import { FirebaseApplication } from './Firebase/firebaseconfig.jsx';
 
 
 function App() {
+  console.log(FirebaseApplication);
   return (
     <BrowserRouter>
       <div className="App">
