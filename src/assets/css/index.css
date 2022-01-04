@@ -20,19 +20,12 @@ html {
 header {
     background-color     : var(--bgcolor);
     display              : grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 32%));
-    gap                  : 1%;
+    grid-template-columns: repeat(auto-fit, minmax(315px, 33%));
     padding              : 1%;
+    align-items          : center;
+    justify-content      : center;
 }
 
-.logo {
-    width: 25%;
-}
-
-
-.headerbuttons {
-    width: fit-content;
-}
 
 .cascader {
     width: 100%;
@@ -62,12 +55,18 @@ button {
 }
 
 
+::-webkit-scrollbar {
+    display: none;
+}
 
 .brand {
     display              : grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
     gap                  : 2%;
-    margin-bottom        : 5%;
+    height               : auto;
+    overflow             : auto;
+    padding              : 2%;
+
 }
 
 img {
@@ -93,18 +92,14 @@ strong {
 .login {
     margin         : 5% auto;
     border         : groove var(--bgcolor);
-    width          : 75%;
     padding        : 1%;
-    display        : flex;
-    justify-content: space-between;
     box-shadow     : 10px 10px var(--bgcolor);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
 }
 
-.login>div {
-    width  : 50%;
-    padding: 1%;
-}
+
 
 .loginposter img {
     width: 100%;
@@ -198,13 +193,13 @@ input[type=submit] {
     grid-auto-flow       : column;
     line-height          : 2;
     text-align           : justify;
-    font-size: 1.2vw;
+    font-size            : 1.2vw;
 
 }
 
 .phonedisplay {
     width: 50%;
-   
+
 
 }
 
@@ -214,28 +209,47 @@ input[type=submit] {
     cursor     : pointer;
 
 }
-.title
-{
+
+.title {
     font-weight: bold;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+.backbutton
+{
+    font-size: 2vw;
+    margin-bottom: 10%;
+    margin-left: 2%;
+}
 
 @media screen and (max-width:768px) {
     .text {
         font-size: 2.5vw;
         border   : solid;
     }
+    .backbutton
+{
+    font-size: 5vw;
+}
 
+
+    .phone picture img {
+        width: 50%;
+    }
+
+    .phone h4,
+    .phone p,
+    strong,.login > div h4 {
+        font-size: 5vw;
+    }
+
+    .price,
+    .cartlist p,
+    .deleteicon,
+    .textarea {
+        font-size: 3.1vw;
+    }
+
+    .loginposter {
+        display: none;
+    }
 }

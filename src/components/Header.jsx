@@ -2,7 +2,7 @@ import { Badge, Cascader } from "antd"
 import React from "react"
 import { brands } from '../data/brand.jsx'
 import { phones } from '../data/phones.jsx'
-import brand from '../assets/images/brand-transparent.png'
+import brand from '../assets/images/brand-transparent.svg'
 import { Button } from 'antd';
 import { ShoppingCartOutlined, UserSwitchOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom"
@@ -67,9 +67,7 @@ const Header = ({ cartcount }) => {
     return (
         <header>
             <div className="logo">
-                <picture>
-                    <img src={brand} alt="HandPhone.png" />
-                </picture>
+                <img src={brand} alt="headphone"/>
             </div>
 
             <div>

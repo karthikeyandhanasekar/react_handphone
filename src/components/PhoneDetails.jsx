@@ -6,7 +6,7 @@ import { phones } from '../data/phones'
 import Header from './Header';
 import { database } from '../Firebase/firebaseconfig'
 import { setDoc, doc, deleteDoc, getDocFromServer } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const PhoneDetails = () => {
     const { name } = useParams()
