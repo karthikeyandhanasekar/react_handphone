@@ -195,7 +195,7 @@ input[type=submit] {
     padding              : 1%;
     display              : grid;
     grid-template-columns: repeat(auto-fit, minmax(308px, 40%));
-    grid-auto-flow: column;
+    grid-auto-flow       : column;
 
 }
 
@@ -203,6 +203,12 @@ input[type=submit] {
     width: 70%;
 }
 
+.forgetpass {
+    color      : rgb(128, 128, 230);
+    margin-left: 70%;
+    cursor     : pointer;
+
+}
 
 
 

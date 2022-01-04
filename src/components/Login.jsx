@@ -1,16 +1,20 @@
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, Modal } from "antd";
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import poster from '../assets/images/loginposter.png'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Text from "antd/lib/typography/Text";
 
 const Login = () => {
     const { control, handleSubmit, reset } = useForm();
+    const [visible, setvisible] = React.useState(false)
+    const [email, setemail] = React.useState('')
 
 
+    console.log(email);
 
 
     const navigate = useNavigate()
@@ -23,6 +27,35 @@ const Login = () => {
     }, [navigate])
 
 
+    const resetpassword = () => {
+        try {
+
+            sendPasswordResetEmail(getAuth(), email).then((response) => {
+                toast.success("Mail been Shared")
+                setemail('')
+                setvisible(false)
+            })
+                .catch(error => {
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            toast.error('Email already in use !')
+                            break;
+                        case 'auth/wrong-password':
+                            toast.error('Please check the Password')
+                            break;
+
+                        case 'auth/user-not-found':
+                            toast.error('Please check the Email');
+                            break;
+
+                        default:
+                            break;
+                    }
+                })
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
 
     const onsubmit = (data) => {
@@ -84,7 +117,7 @@ const Login = () => {
                                     <Input.Password {...field} placeholder="password" autoComplete="on" required />
                                 } />
                         </Form.Item>
-
+                        <Text type="link" className="forgetpass" onClick={() => setvisible(true)} >Forget Password..?</Text><br />
                         <Button type="primary" htmlType="submit">
                             Log in
                         </Button>
@@ -97,6 +130,22 @@ const Login = () => {
                     <img src={poster} alt="handphone.png" />
                 </div>
             </div>
+
+
+            <Modal
+                title="Forget Password"
+                visible={visible}
+                onOk={resetpassword}
+                // confirmLoading={confirmLoading}
+                onCancel={() => setvisible(false)}
+            >
+                <Form>
+                    <Input value={email} placeholder="Email.." onChange={(e) => setemail(e.target.value)} required autoFocus />
+                </Form>
+
+            </Modal>
+
+
         </main>
     )
 }

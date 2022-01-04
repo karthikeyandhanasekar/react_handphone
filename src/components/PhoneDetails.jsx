@@ -1,5 +1,4 @@
 import { Button, Carousel, Typography} from "antd";
-import ExportTypography from "antd/lib/typography/Typography";
 import React from "react"
 import { useParams } from "react-router-dom"
 import { phones } from '../data/phones'
@@ -8,7 +7,6 @@ import Header from './Header';
 const PhoneDetails = () => {
     const { name } = useParams()
     const data = phones.find(ele => ele.title === name)
-    console.log(data);
 
     return (
         <React.Fragment>
