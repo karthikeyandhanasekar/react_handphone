@@ -196,18 +196,27 @@ input[type=submit] {
     display              : grid;
     grid-template-columns: repeat(auto-fit, minmax(308px, 40%));
     grid-auto-flow       : column;
+    line-height          : 2;
+    text-align           : justify;
+    font-size: 1.2vw;
 
 }
 
 .phonedisplay {
-    width: 70%;
+    width: 50%;
+   
+
 }
 
 .forgetpass {
     color      : rgb(128, 128, 230);
-    margin-left: 70%;
+    margin-left: 60%;
     cursor     : pointer;
 
+}
+.title
+{
+    font-weight: bold;
 }
 
 
